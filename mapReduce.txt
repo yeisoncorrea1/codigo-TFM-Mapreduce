@@ -1,0 +1,11 @@
+chmod +x *.py
+
+cat base_tipificaciones.txt | ./map1.py | tail
+cat base_tipificaciones.txt | ./map1.py | sort | ./reduce1.py | tail
+
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.5.0-cdh5.3.0.jar -input /user/yeison/bancaseguros/base_tipificaciones.txt -output /user/yeison/bancaseguros/ouput -file map1.py -file reduce1.py -mapper map1.py -combiner reduce1.py -reducer reduce1.py
+
+hadoop fs -get /user/yeison/bancaseguros/ouput/part-00000 output1.txt 
+
+hadoop fs -mkdir /user/yeison/bancaseguros/
+hadoop fs -put yeison/bancaseguros/ base_tipificaciones.txt/user/yeison/bancaseguros/

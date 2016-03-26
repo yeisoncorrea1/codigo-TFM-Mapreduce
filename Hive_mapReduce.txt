@@ -1,0 +1,12 @@
+hive
+
+CREATE TABLE base_tipificaciones (LlamadaId INT, Descripcion STRING, ClienteID INT, Tipificacion INT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n';
+
+LOAD DATA INPATH '/user/yeison/bancaseguros/base_tipificaciones.txt' INTO TABLE Tipificaciones;
+
+SELECT * FROM Tipificaciones LIMIT 10;
+
+SELECT ClienteID, SUM(Tipificacion) FROM Tipificaciones 
+GROUP BY ClienteID;
