@@ -1,5 +1,31 @@
 chmod +x *.py
 
+##map1.py######
+
+#!/usr/bin/env python
+import sys
+for line in sys.stdin:
+(LlamadaId, Descripcion, ClienteID, Tipificacion) = line.split('\t')
+print '%s\t%d' % (ClienteID,Tipificacion, 1)
+
+
+
+##reduce1.py#####
+
+#!/usr/bin/env python
+import sys
+(lastClienteID, Suma) = (None, 0)
+for line in sys.stdin:
+(ClienteID, sum) = line.split('\t')
+if lastClienteID and ClienteID != lastClienteID:
+print '%s\t%d' % (lastClienteID, Suma)
+(lastClienteID, Suma) = (ClienteID, int(sum))
+else:
+(lastClienteID, Suma) = (ClienteID, Suma + int(sum))
+if lastClienteID:
+print '%s\t%d' % (lastClienteID, Suma)
+
+
 cat base_tipificaciones.txt | ./map1.py | tail
 cat base_tipificaciones.txt | ./map1.py | sort | ./reduce1.py | tail
 
